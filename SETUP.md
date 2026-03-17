@@ -16,11 +16,17 @@
 ## 1. 설치
 
 ```bash
-# npm
+# GitHub URL로 직접 설치 (npm publish 없이 사용 가능)
+npm install github:redhotsixbull/pullim-design-system
+
+# 특정 커밋/태그 고정
+npm install github:redhotsixbull/pullim-design-system#v0.1.0
+
+# npm 레지스트리 (publish 후)
 npm install @pullim/design-system
 
-# pnpm
-pnpm add @pullim/design-system
+# 로컬 경로 (개발 중)
+npm install file:../pullim-design-system
 ```
 
 peer dependencies 필수 설치:
@@ -28,6 +34,9 @@ peer dependencies 필수 설치:
 ```bash
 npm install react react-dom tailwindcss react-hook-form
 ```
+
+> **GitHub URL 설치 시 빌드 주의**: `dist/`가 `.gitignore`에 포함되어 있어 GitHub에 업로드되지 않습니다.
+> 설치 후 자동으로 `npm run build`가 실행되도록 `package.json`에 `prepare` 스크립트가 추가되어 있습니다.
 
 ---
 
