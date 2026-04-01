@@ -19,6 +19,7 @@ export type { HeadingProps, TextProps } from "./components/typography";
 // ── Inputs ─────────────────────────────────────────────────────────
 export { Button, buttonVariants } from "./components/ui/button";
 export type { ButtonProps } from "./components/ui/button";
+export { Calendar, CalendarDayButton } from "./components/ui/calendar";
 export { Input } from "./components/ui/input";
 export { Textarea } from "./components/ui/textarea";
 export {

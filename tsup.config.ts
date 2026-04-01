@@ -8,5 +8,5 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   splitting: false,
-  external: ["react", "react-dom", "tailwindcss", "react-hook-form"],
+  external: ["react", "react-dom", "tailwindcss", "react-hook-form", "react-day-picker"],
 });

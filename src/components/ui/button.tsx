@@ -8,10 +8,10 @@ import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 rounded-md shrink-0 cursor-pointer",
+    "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md",
     "text-sm font-medium whitespace-nowrap",
     "transition-all outline-none",
-    "disabled:pointer-events-none disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-600",
+    "disabled:pointer-events-none disabled:bg-gray-300 disabled:text-gray-600 disabled:opacity-50",
     "focus-visible:ring-2 focus-visible:ring-offset-2",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
     "[&_svg:not([class*='size-'])]:size-4",
@@ -24,7 +24,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/80 focus-visible:ring-destructive/50",
         outline:
-          "border border-border bg-background text-foreground shadow-sm hover:bg-gray-100 hover:text-foreground focus-visible:ring-pullim-500/50",
+          "border border-border bg-background text-foreground shadow-sm hover:bg-gray-100 hover:text-accent-foreground focus-visible:ring-pullim-500/50",
         secondary:
           "bg-gray-200 text-secondary-foreground hover:bg-gray-200/80 focus-visible:ring-pullim-500/50",
         ghost:
@@ -52,24 +52,19 @@ export interface ButtonProps
   loading?: boolean;
 }
 
-function Button({
-  className,
-  variant,
-  size,
-  asChild = false,
-  loading = false,
-  disabled,
-  children,
-  ...props
-}: ButtonProps) {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { className, variant, size, asChild = false, loading = false, disabled, children, ...props },
+  ref,
+) {
   const Comp = asChild ? Slot : "button";
   const isDisabled = disabled || loading;
 
   if (asChild) {
     return (
       <Comp
+        ref={ref}
         data-slot="button"
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size }), className)}
         disabled={isDisabled}
         {...props}
       >
@@ -80,14 +75,17 @@ function Button({
 
   return (
     <Comp
+      ref={ref}
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
       disabled={isDisabled}
       {...props}
     >
       {loading ? <Loader2 className="size-4 animate-spin" /> : children}
     </Comp>
   );
-}
+});
+
+Button.displayName = "Button";
 
 export { Button, buttonVariants };
