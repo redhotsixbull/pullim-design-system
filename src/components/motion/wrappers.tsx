@@ -41,7 +41,10 @@ type OmitAnim = Omit<
   "initial" | "animate" | "variants" | "whileInView" | "children"
 >;
 
-function animProps(when: PullimWhen, viewport: MotionDivProps["viewport"] | undefined) {
+function animProps(
+  when: PullimWhen,
+  viewport: MotionDivProps["viewport"] | undefined,
+) {
   if (when === "inView") {
     return {
       initial: "hidden" as const,
@@ -92,25 +95,26 @@ export type PullimFadeSlideUpProps = OmitAnim & {
 };
 
 /** `fadeSlideUp` — 페이드 + 아래에서 위로. */
-export const PullimFadeSlideUp = React.forwardRef<HTMLDivElement, PullimFadeSlideUpProps>(
-  function PullimFadeSlideUp(
-    { className, options, when = "mount", viewport, children, ...props },
-    ref,
-  ) {
-    const a = animProps(when, viewport);
-    return (
-      <motion.div
-        ref={ref}
-        className={cn(className)}
-        variants={fadeSlideUp(options)}
-        {...a}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  },
-);
+export const PullimFadeSlideUp = React.forwardRef<
+  HTMLDivElement,
+  PullimFadeSlideUpProps
+>(function PullimFadeSlideUp(
+  { className, options, when = "mount", viewport, children, ...props },
+  ref,
+) {
+  const a = animProps(when, viewport);
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(className)}
+      variants={fadeSlideUp(options)}
+      {...a}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 PullimFadeSlideUp.displayName = "PullimFadeSlideUp";
 
 export type PullimFadeSlideXProps = OmitAnim & {
@@ -121,25 +125,26 @@ export type PullimFadeSlideXProps = OmitAnim & {
 };
 
 /** `fadeSlideX` — 페이드 + 좌우 슬라이드. */
-export const PullimFadeSlideX = React.forwardRef<HTMLDivElement, PullimFadeSlideXProps>(
-  function PullimFadeSlideX(
-    { className, options, when = "mount", viewport, children, ...props },
-    ref,
-  ) {
-    const a = animProps(when, viewport);
-    return (
-      <motion.div
-        ref={ref}
-        className={cn(className)}
-        variants={fadeSlideX(options)}
-        {...a}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  },
-);
+export const PullimFadeSlideX = React.forwardRef<
+  HTMLDivElement,
+  PullimFadeSlideXProps
+>(function PullimFadeSlideX(
+  { className, options, when = "mount", viewport, children, ...props },
+  ref,
+) {
+  const a = animProps(when, viewport);
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(className)}
+      variants={fadeSlideX(options)}
+      {...a}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 PullimFadeSlideX.displayName = "PullimFadeSlideX";
 
 export type PullimScaleInProps = OmitAnim & {
@@ -150,25 +155,26 @@ export type PullimScaleInProps = OmitAnim & {
 };
 
 /** `scaleIn` — 살짝 확대되며 등장. */
-export const PullimScaleIn = React.forwardRef<HTMLDivElement, PullimScaleInProps>(
-  function PullimScaleIn(
-    { className, options, when = "mount", viewport, children, ...props },
-    ref,
-  ) {
-    const a = animProps(when, viewport);
-    return (
-      <motion.div
-        ref={ref}
-        className={cn(className)}
-        variants={scaleIn(options)}
-        {...a}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  },
-);
+export const PullimScaleIn = React.forwardRef<
+  HTMLDivElement,
+  PullimScaleInProps
+>(function PullimScaleIn(
+  { className, options, when = "mount", viewport, children, ...props },
+  ref,
+) {
+  const a = animProps(when, viewport);
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(className)}
+      variants={scaleIn(options)}
+      {...a}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 PullimScaleIn.displayName = "PullimScaleIn";
 
 export type PullimPulseProps = OmitAnim & {
@@ -208,26 +214,43 @@ export type PullimStaggerRootProps = OmitAnim & {
 
 /**
  * `staggerContainer` — 자식 `PullimStaggerItem` 순차 등장을 조율하는 루트.
+ *
+ * `when="mount"`일 때 Motion은 부모 `animate="show"`가 자식 mount보다 먼저 돌면
+ * `variantChildren`이 비어 stagger가 스킵되고, 자식이 상속으로 동시에 show 되는
+ * 경우가 있다. 한 프레임 뒤 `show`로 올려 자식 등록 후 stagger가 적용되게 한다.
  */
-export const PullimStaggerRoot = React.forwardRef<HTMLDivElement, PullimStaggerRootProps>(
-  function PullimStaggerRoot(
-    { className, options, when = "mount", viewport, children, ...props },
-    ref,
-  ) {
-    const a = animProps(when, viewport);
-    return (
-      <motion.div
-        ref={ref}
-        className={cn(className)}
-        variants={staggerContainer(options)}
-        {...a}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  },
-);
+export const PullimStaggerRoot = React.forwardRef<
+  HTMLDivElement,
+  PullimStaggerRootProps
+>(function PullimStaggerRoot(
+  { className, options, when = "mount", viewport, children, ...props },
+  ref,
+) {
+  const [mountShow, setMountShow] = React.useState(false);
+  React.useLayoutEffect(() => {
+    setMountShow(true);
+  }, []);
+
+  const a =
+    when === "mount"
+      ? ({
+          initial: "hidden" as const,
+          animate: mountShow ? ("show" as const) : ("hidden" as const),
+        } as const)
+      : animProps(when, viewport);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(className)}
+      variants={staggerContainer(options)}
+      {...a}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 PullimStaggerRoot.displayName = "PullimStaggerRoot";
 
 export type PullimStaggerItemProps = OmitAnim & {
@@ -239,18 +262,19 @@ export type PullimStaggerItemProps = OmitAnim & {
  * `staggerItem` — `PullimStaggerRoot` 직계 자식에서만 stagger 타이밍을 받는다.
  * `initial`/`animate`는 부모가 담당하므로 여기서는 `variants`만 설정한다.
  */
-export const PullimStaggerItem = React.forwardRef<HTMLDivElement, PullimStaggerItemProps>(
-  function PullimStaggerItem({ className, options, children, ...props }, ref) {
-    return (
-      <motion.div
-        ref={ref}
-        className={cn(className)}
-        variants={staggerItem(options)}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    );
-  },
-);
+export const PullimStaggerItem = React.forwardRef<
+  HTMLDivElement,
+  PullimStaggerItemProps
+>(function PullimStaggerItem({ className, options, children, ...props }, ref) {
+  return (
+    <motion.div
+      ref={ref}
+      className={cn(className)}
+      variants={staggerItem(options)}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  );
+});
 PullimStaggerItem.displayName = "PullimStaggerItem";
