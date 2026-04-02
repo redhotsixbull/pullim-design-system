@@ -16,11 +16,17 @@ function transition(
   opts: PullimMotionBaseOptions | undefined,
   overrides?: Partial<{ duration: number; ease: typeof defaultEase | string }>,
 ) {
-  return {
+  const t: {
+    duration: number;
+    ease: PullimMotionBaseOptions["ease"];
+    delay?: number;
+  } = {
     duration: overrides?.duration ?? opts?.duration ?? 0.25,
     ease: (overrides?.ease ?? opts?.ease ?? defaultEase) as PullimMotionBaseOptions["ease"],
-    delay: opts?.delay,
   };
+  // Motion은 child transition에 `delay: undefined`가 있으면 부모가 넘긴 stagger delay를 덮어써 버린다.
+  if (opts?.delay !== undefined) t.delay = opts.delay;
+  return t;
 }
 
 /**
@@ -86,23 +92,22 @@ export function staggerContainer(opts?: PullimStaggerContainerOptions): Variants
   const opacityFrom = opts?.opacityFrom ?? 0;
   const opacityTo = opts?.opacityTo ?? 1;
   const baseHidden = fade ? { opacity: opacityFrom } : {};
+  const staggerTransition: Record<string, unknown> = {
+    staggerChildren: opts?.staggerChildren ?? 0.08,
+    delayChildren: opts?.delayChildren ?? 0,
+  };
+  if (opts?.delay !== undefined) staggerTransition.delay = opts.delay;
   const baseShow = fade
     ? {
         opacity: opacityTo,
         transition: {
-          staggerChildren: opts?.staggerChildren ?? 0.08,
-          delayChildren: opts?.delayChildren ?? 0,
+          ...staggerTransition,
           duration: opts?.duration ?? 0.25,
           ease: opts?.ease ?? defaultEase,
-          delay: opts?.delay,
         },
       }
     : {
-        transition: {
-          staggerChildren: opts?.staggerChildren ?? 0.08,
-          delayChildren: opts?.delayChildren ?? 0,
-          delay: opts?.delay,
-        },
+        transition: staggerTransition,
       };
   return {
     hidden: baseHidden,
