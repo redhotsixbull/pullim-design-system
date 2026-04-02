@@ -1,11 +1,13 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, readdirSync, writeFileSync } from "fs";
+import { join } from "path";
 
-const files = [
-  "dist/index.js",
-  "dist/index.cjs",
-];
+const dist = "dist";
+const files = readdirSync(dist).filter(
+  (name) => name.endsWith(".js") || name.endsWith(".cjs"),
+);
 
-for (const file of files) {
+for (const name of files) {
+  const file = join(dist, name);
   const content = readFileSync(file, "utf-8");
   if (!content.startsWith('"use client"')) {
     writeFileSync(file, `"use client";\n${content}`);

@@ -138,6 +138,7 @@ export { Skeleton } from "./components/ui/skeleton";
 export { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
 export { Progress } from "./components/ui/progress";
 export { Toaster } from "./components/ui/sonner";
+export { toast } from "sonner";
 
 // ── Form ───────────────────────────────────────────────────────────
 export {
@@ -150,3 +151,42 @@ export {
   FormMessage,
   useFormField,
 } from "./components/ui/form";
+
+// ── Motion (Motion / Framer 계열) ──────────────────────────────────
+export { AnimatePresence, motion, useReducedMotion } from "motion/react";
+export type { Transition, Variants } from "motion/react";
+export {
+  fadeIn,
+  fadeSlideUp,
+  fadeSlideX,
+  pulse,
+  pullimMotionPresets,
+  scaleIn,
+  staggerContainer,
+  staggerItem,
+  PullimFadeIn,
+  PullimFadeSlideUp,
+  PullimFadeSlideX,
+  PullimPulse,
+  PullimScaleIn,
+  PullimStaggerItem,
+  PullimStaggerRoot,
+} from "./components/motion";
+export type {
+  PullimFadeInProps,
+  PullimFadeSlideUpOptions,
+  PullimFadeSlideUpProps,
+  PullimFadeSlideXOptions,
+  PullimFadeSlideXProps,
+  PullimMotionBaseOptions,
+  PullimMotionOpacityOptions,
+  PullimMotionTimingOptions,
+  PullimPulseOptions,
+  PullimPulseProps,
+  PullimScaleInOptions,
+  PullimScaleInProps,
+  PullimStaggerContainerOptions,
+  PullimStaggerItemProps,
+  PullimStaggerRootProps,
+  PullimWhen,
+} from "./components/motion";
