@@ -16,6 +16,11 @@
       "import": "./dist/lucide-animated.js",
       "require": "./dist/lucide-animated.cjs"
     },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.js",
+      "require": "./dist/icons.cjs"
+    },
     "./styles/globals.css": "./src/styles/globals.css"
   },
   "main": "./dist/index.cjs",

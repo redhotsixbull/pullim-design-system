@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/lucide-animated.ts"],
+  entry: ["src/index.ts", "src/lucide-animated.ts", "src/icons.ts"],
   format: ["esm", "cjs"],
   dts: true,
   sourcemap: true,
@@ -16,5 +16,6 @@ export default defineConfig({
     "react-day-picker",
     "motion",
     "lucide-animated",
+    "lucide-react",
   ],
 });

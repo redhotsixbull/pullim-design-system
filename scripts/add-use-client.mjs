@@ -3,7 +3,9 @@ import { join } from "path";
 
 const dist = "dist";
 const files = readdirSync(dist).filter(
-  (name) => name.endsWith(".js") || name.endsWith(".cjs"),
+  (name) =>
+    (name.endsWith(".js") || name.endsWith(".cjs")) &&
+    !name.startsWith("icons."),
 );
 
 for (const name of files) {
