@@ -131,6 +131,17 @@ export {
   DropdownMenuTrigger,
 } from "./components/ui/dropdown-menu";
 
+// ── Navigation ────────────────────────────────────────────────────
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./components/ui/pagination";
+
 // ── Feedback ───────────────────────────────────────────────────────
 export { Badge, badgeVariants } from "./components/ui/badge";
 export type { BadgeProps } from "./components/ui/badge";
