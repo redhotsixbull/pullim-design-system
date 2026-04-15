@@ -1,6 +1,6 @@
 {
   "name": "@pullim/design-system",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pullim Design System — shadcn 기반 토큰 시스템 + 커레이션된 컴포넌트 셋",
   "keywords": [
     "design-system",
