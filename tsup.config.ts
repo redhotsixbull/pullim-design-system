@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/lucide-animated.ts", "src/icons.ts"],
+  entry: ["src/index.ts", "src/lucide-animated.ts", "src/icons.ts", "src/question.ts"],
   format: ["esm", "cjs"],
   dts: true,
   sourcemap: true,
@@ -17,5 +17,6 @@ export default defineConfig({
     "motion",
     "lucide-animated",
     "lucide-react",
+    "recharts",
   ],
 });
